@@ -1,0 +1,61 @@
+--EMUC-B202/EGPC-B201 Linux Socket CAN driver
+
+-V3.7:
+1. Modify about related to tty_ldisc's function for kernel version >= 5.19.0
+
+-V3.6:
+1. Modify about related to tty_ldisc's function for kernel version >= 5.14.0
+
+-V3.5:
+1. Modify emuc_ldisc structure for kernel version >= 5.13.0
+
+-V3.4:
+1. Fix stop/start CAN frequently to cause parse fail
+2. EMUC device will auto inactive after setting down "two" CAN port by driver
+
+-V3.3:
+1. kernel version < 3.15.0: fix struct net_device_ops() iuuse
+
+-V3.2:
+1. kernel version >= 5.4.0: fix struct can_priv() iuuse
+
+-v3.1:
+1. Start to support ERROR auto return command
+2. usage: candump any,0~0,#20000004 -t z
+3. must use SocketCAN utility >= ver 3.1
+4. remove linux/mutex.h & related cmd
+
+-v3.0:
+1. Start to support high level CANbus protocal
+2. Add created kernel object for checked device model
+3. Add ioctl (from user space) command for recorded device model name
+4. Fix auto active issue when multi canbus
+
+-v2.6
+1. If kernel version >= 5.4.0: emuc_alloc() use alloc_candev() instead of alloc_netdev()
+2. If kernel version < 3.6.0 use register_netdev(), else use register_candev()
+3. Fix RX RTR with data length
+4. emuc_receive_buf() add usleep_range(10, 100);
+
+-v2.5
+1. EMUC device will auto active after setting up "two" CAN port by driver
+
+-v2.4
+1. Let debug message define macro to Makefile (without compile)
+2. Add mutex lock & udelay in emuc_xmit() function
+3. Add ioctl (from user space) command for xmit_delay setting
+
+
+-v2.3
+1. kernel version >= 4.11.9: main.c: dev->destructor -----> dev->priv_destructor
+
+-v2.2
+1. Fix tx_packets bug
+
+-v2.1
+1. Reconstruct the source code structure.
+2. Fix data loss in Linux kernel over 4.1.5. (can_skb_prv(skb)->skbcnt = 0)
+
+-v2.0
+1. First release for EMUC-B202
+
