@@ -136,10 +136,14 @@ static int  emuc_ioctl (struct tty_struct *tty, unsigned int cmd, unsigned long 
 static int  emuc_ioctl (struct tty_struct *tty, struct file *file, unsigned int cmd, unsigned long arg);
 #endif
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,6,0)
+static void emuc_receive_buf (struct tty_struct *tty, const u8 *cp, const u8 *fp, size_t count);
+#else
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,14,0)
 static void emuc_receive_buf (struct tty_struct *tty, const unsigned char *cp, const char *fp, int count);
 #else
 static void emuc_receive_buf (struct tty_struct *tty, const unsigned char *cp, char *fp, int count);
+#endif
 #endif
 
 static void emuc_write_wakeup(struct tty_struct *tty);
@@ -357,10 +361,14 @@ static void __exit emuc_exit (void)
 } /* END: emuc_exit() */
 
 /*---------------------------------------------------------------------------------------------------*/
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6,6,0)
+static void emuc_receive_buf (struct tty_struct *tty, const u8 *cp, const u8 *fp, size_t count)
+#else
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,14,0)
 static void emuc_receive_buf (struct tty_struct *tty, const unsigned char *cp, const char *fp, int count)
 #else
 static void emuc_receive_buf (struct tty_struct *tty, const unsigned char *cp, char *fp, int count)
+#endif
 #endif
 {
   EMUC_RAW_INFO *info = (EMUC_RAW_INFO *) tty->disc_data;
